@@ -1,10 +1,10 @@
-const URL =
-  "https://script.google.com/macros/s/AKfycbzApJS9k5GNDFU7fMQY0o9d498ZFBElU0RsYm7knmEJBANMwja41Zzh_yE6wwF4haYjBQ/exec";
+const API_URL = "https://form-api.demo1fort.workers.dev";
+
 async function submitForm(data) {
-  await fetch(URL, {
+  const res = await fetch(API_URL, {
     method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+  if (!res.ok) throw new Error("Ошибка отправки");
 }

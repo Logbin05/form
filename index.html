@@ -1,360 +1,787 @@
 <!doctype html>
 <html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Запись в кружки по программированию</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #14161a;
-    --panel: #1b1e24;
-    --panel-2: #22262d;
-    --line: #2f343d;
-    --text: #e6e9ee;
-    --muted: #9099a6;
-    --mint: #4ade9c;
-    --danger: #ff6b7a;
-    --web: #60a5fa;
-    --sys: #a78bfa;
-    --design: #fb7185;
-    --mobile: #fbbf24;
-    --radius: 12px;
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Запись в кружки по программированию</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #14161a;
+        --panel: #1b1e24;
+        --panel-2: #22262d;
+        --line: #2f343d;
+        --text: #e6e9ee;
+        --muted: #9099a6;
+        --mint: #4ade9c;
+        --danger: #ff6b7a;
+        --web: #60a5fa;
+        --sys: #a78bfa;
+        --design: #fb7185;
+        --mobile: #fbbf24;
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 16px 64px;
+      }
 
-  header { margin-bottom: 28px; }
-  .prompt { color: var(--mint); font-size: 13px; margin-bottom: 8px; }
-  .prompt::before { content: "$ "; color: var(--muted); }
-  h1 { font-size: 26px; line-height: 1.25; margin: 0 0 10px; }
-  header p { margin: 0; color: var(--muted); }
-  .cursor { display: inline-block; width: 9px; height: 1em; background: var(--mint); vertical-align: -2px; margin-left: 4px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+      header {
+        margin-bottom: 28px;
+      }
+      .prompt {
+        color: var(--mint);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .prompt::before {
+        content: "$ ";
+        color: var(--muted);
+      }
+      h1 {
+        font-size: 26px;
+        line-height: 1.25;
+        margin: 0 0 10px;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .cursor {
+        display: inline-block;
+        width: 9px;
+        height: 1em;
+        background: var(--mint);
+        vertical-align: -2px;
+        margin-left: 4px;
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cursor {
+          animation: none;
+        }
+      }
 
-  form { display: grid; gap: 22px; }
-  .field, fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
-  label.lbl, legend {
-    display: block; padding: 0; margin-bottom: 8px;
-    font-weight: 500; font-size: 14px;
-  }
-  .req { color: var(--mint); margin-left: 2px; }
-  .hint { color: var(--muted); font-weight: 400; font-size: 12.5px; }
+      form {
+        display: grid;
+        gap: 22px;
+      }
+      .field,
+      fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        min-width: 0;
+      }
+      label.lbl,
+      legend {
+        display: block;
+        padding: 0;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .req {
+        color: var(--mint);
+        margin-left: 2px;
+      }
+      .hint {
+        color: var(--muted);
+        font-weight: 400;
+        font-size: 12.5px;
+      }
 
-  input[type=text], textarea {
-    width: 100%;
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    font: inherit;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  textarea { resize: vertical; min-height: 110px; }
-  input::placeholder, textarea::placeholder { color: #5f6773; }
-  input[type=text]:focus-visible, textarea:focus-visible {
-    outline: none; border-color: var(--mint);
-    box-shadow: 0 0 0 3px rgba(74, 222, 156, .22);
-  }
-  [aria-invalid=true] { border-color: var(--danger) !important; }
-  .err { color: var(--danger); font-size: 12.5px; margin-top: 6px; min-height: 0; display: none; }
-  .err.show { display: block; }
-  .counter { text-align: right; color: var(--muted); font-size: 12px; margin-top: 4px; }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        font: inherit;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 110px;
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: #5f6773;
+      }
+      input[type="text"]:focus-visible,
+      textarea:focus-visible {
+        outline: none;
+        border-color: var(--mint);
+        box-shadow: 0 0 0 3px rgba(74, 222, 156, 0.22);
+      }
+      [aria-invalid="true"] {
+        border-color: var(--danger) !important;
+      }
+      .err {
+        color: var(--danger);
+        font-size: 12.5px;
+        margin-top: 6px;
+        min-height: 0;
+        display: none;
+      }
+      .err.show {
+        display: block;
+      }
+      .counter {
+        text-align: right;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 4px;
+      }
 
-  .cards { display: grid; gap: 10px; grid-template-columns: 1fr; }
-  @media (min-width: 560px) { .cards { grid-template-columns: 1fr 1fr; } }
-  .card { position: relative; }
-  .card input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
-  .card .body {
-    display: flex; gap: 12px; align-items: flex-start;
-    height: 100%;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 14px;
-    transition: background .15s, border-color .15s, transform .15s;
-  }
-  .card:hover .body { background: var(--panel-2); }
-  .card input:focus-visible + .body { box-shadow: 0 0 0 3px rgba(74, 222, 156, .3); }
-  .card input:checked + .body {
-    background: color-mix(in srgb, var(--accent) 14%, var(--panel));
-    border-color: var(--accent);
-  }
-  .tick {
-    flex: none; width: 20px; height: 20px; margin-top: 2px;
-    border: 2px solid var(--line); border-radius: 6px;
-    display: grid; place-items: center; font-size: 13px; line-height: 1; color: var(--bg);
-  }
-  .card input:checked + .body .tick { background: var(--accent); border-color: var(--accent); }
-  .card input:checked + .body .tick::after { content: "✓"; font-weight: 700; }
-  .card input[type=radio] + .body .tick { border-radius: 50%; }
-  .card .name { font-weight: 700; display: block; }
-  .card .desc { color: var(--muted); font-size: 12.5px; display: block; }
-  .web { --accent: var(--web); } .sys { --accent: var(--sys); }
-  .design { --accent: var(--design); } .mobile { --accent: var(--mobile); }
+      .cards {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 560px) {
+        .cards {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .card {
+        position: relative;
+      }
+      .card input {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+      }
+      .card .body {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        height: 100%;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--accent);
+        border-radius: var(--radius);
+        padding: 14px;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .card:hover .body {
+        background: var(--panel-2);
+      }
+      .card input:focus-visible + .body {
+        box-shadow: 0 0 0 3px rgba(74, 222, 156, 0.3);
+      }
+      .card input:checked + .body {
+        background: color-mix(in srgb, var(--accent) 14%, var(--panel));
+        border-color: var(--accent);
+      }
+      .tick {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        border: 2px solid var(--line);
+        border-radius: 6px;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        line-height: 1;
+        color: var(--bg);
+      }
+      .card input:checked + .body .tick {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .card input:checked + .body .tick::after {
+        content: "✓";
+        font-weight: 700;
+      }
+      .card input[type="radio"] + .body .tick {
+        border-radius: 50%;
+      }
+      .card .name {
+        font-weight: 700;
+        display: block;
+      }
+      .card .desc {
+        color: var(--muted);
+        font-size: 12.5px;
+        display: block;
+      }
+      .web {
+        --accent: var(--web);
+      }
+      .sys {
+        --accent: var(--sys);
+      }
+      .design {
+        --accent: var(--design);
+      }
+      .mobile {
+        --accent: var(--mobile);
+      }
 
-  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill { position: relative; }
-  .pill input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
-  .pill span {
-    display: block; padding: 9px 14px;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 999px;
-    font-size: 13.5px; transition: all .15s;
-  }
-  .pill:hover span { background: var(--panel-2); }
-  .pill input:focus-visible + span { box-shadow: 0 0 0 3px rgba(74, 222, 156, .3); }
-  .pill input:checked + span { background: var(--mint); border-color: var(--mint); color: #0c1a13; font-weight: 700; }
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .pill {
+        position: relative;
+      }
+      .pill input {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+      }
+      .pill span {
+        display: block;
+        padding: 9px 14px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-size: 13.5px;
+        transition: all 0.15s;
+      }
+      .pill:hover span {
+        background: var(--panel-2);
+      }
+      .pill input:focus-visible + span {
+        box-shadow: 0 0 0 3px rgba(74, 222, 156, 0.3);
+      }
+      .pill input:checked + span {
+        background: var(--mint);
+        border-color: var(--mint);
+        color: #0c1a13;
+        font-weight: 700;
+      }
 
-  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--muted); cursor: pointer; }
-  .consent input { margin-top: 4px; accent-color: var(--mint); width: 18px; height: 18px; flex: none; }
+      .consent {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 13.5px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .consent input {
+        margin-top: 4px;
+        accent-color: var(--mint);
+        width: 18px;
+        height: 18px;
+        flex: none;
+      }
 
-  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      .hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
 
-  button[type=submit] {
-    font: inherit; font-weight: 700;
-    background: var(--mint); color: #0c1a13;
-    border: 0; border-radius: var(--radius);
-    padding: 14px 20px; cursor: pointer;
-    transition: filter .15s, transform .05s;
-  }
-  button[type=submit]:hover:not(:disabled) { filter: brightness(1.08); }
-  button[type=submit]:active:not(:disabled) { transform: translateY(1px); }
-  button[type=submit]:focus-visible { outline: 3px solid rgba(74, 222, 156, .45); outline-offset: 2px; }
-  button[type=submit]:disabled { opacity: .55; cursor: not-allowed; }
-  .form-error { color: var(--danger); font-size: 13px; display: none; }
-  .form-error.show { display: block; }
+      button[type="submit"] {
+        font: inherit;
+        font-weight: 700;
+        background: var(--mint);
+        color: #0c1a13;
+        border: 0;
+        border-radius: var(--radius);
+        padding: 14px 20px;
+        cursor: pointer;
+        transition:
+          filter 0.15s,
+          transform 0.05s;
+      }
+      button[type="submit"]:hover:not(:disabled) {
+        filter: brightness(1.08);
+      }
+      button[type="submit"]:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+      button[type="submit"]:focus-visible {
+        outline: 3px solid rgba(74, 222, 156, 0.45);
+        outline-offset: 2px;
+      }
+      button[type="submit"]:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .form-error {
+        color: var(--danger);
+        font-size: 13px;
+        display: none;
+      }
+      .form-error.show {
+        display: block;
+      }
 
-  .done { display: none; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 22px; }
-  .done.show { display: block; }
-  .done .ok { color: var(--mint); font-size: 13px; margin-bottom: 8px; }
-  .done h2 { margin: 0 0 12px; font-size: 22px; }
-  .done ul { list-style: none; padding: 0; margin: 14px 0; display: grid; gap: 8px; }
-  .done li { padding: 8px 12px; border-left: 4px solid var(--accent); background: var(--panel-2); border-radius: 8px; font-weight: 500; }
-  .done p { color: var(--muted); margin: 0; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="prompt">enroll --club</div>
-    <h1>Запись в кружки по программированию<span class="cursor" aria-hidden="true"></span></h1>
-    <p>Выбери кружок, расскажи немного о себе, и мы свяжемся с тобой. Заполнение займёт пару минут.</p>
-  </header>
+      .done {
+        display: none;
+        text-align: left;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 28px 22px;
+      }
+      .done.show {
+        display: block;
+      }
+      .done .ok {
+        color: var(--mint);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .done h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+      }
+      .done ul {
+        list-style: none;
+        padding: 0;
+        margin: 14px 0;
+        display: grid;
+        gap: 8px;
+      }
+      .done li {
+        padding: 8px 12px;
+        border-left: 4px solid var(--accent);
+        background: var(--panel-2);
+        border-radius: 8px;
+        font-weight: 500;
+      }
+      .done p {
+        color: var(--muted);
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="prompt">enroll --club</div>
+        <h1>
+          Запись в кружки по программированию<span
+            class="cursor"
+            aria-hidden="true"
+          ></span>
+        </h1>
+        <p>
+          Выбери кружок, расскажи немного о себе, и мы свяжемся с тобой.
+          Заполнение займёт пару минут.
+        </p>
+      </header>
 
-  <form id="form" novalidate>
-    <div class="field">
-      <label class="lbl" for="fio">ФИО <span class="req">*</span></label>
-      <input type="text" id="fio" name="fio" autocomplete="name" placeholder="Иванов Иван Иванович" maxlength="120">
-      <div class="err" id="err-fio"></div>
+      <form id="form" novalidate>
+        <div class="field">
+          <label class="lbl" for="fio">ФИО <span class="req">*</span></label>
+          <input
+            type="text"
+            id="fio"
+            name="fio"
+            autocomplete="name"
+            placeholder="Иванов Иван Иванович"
+            maxlength="120"
+          />
+          <div class="err" id="err-fio"></div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="group"
+            >Группа и курс <span class="req">*</span></label
+          >
+          <input
+            type="text"
+            id="group"
+            name="group"
+            placeholder="Например: ИС-221/1, 4 курс"
+            maxlength="60"
+          />
+          <div class="err" id="err-group"></div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="contact"
+            >Telegram <span class="req">*</span></label
+          >
+          <input
+            type="text"
+            id="contact"
+            name="contact"
+            autocomplete="off"
+            placeholder="@username или +7 900 000-00-00"
+            maxlength="40"
+          />
+          <div class="err" id="err-contact"></div>
+        </div>
+
+        <fieldset class="field" id="fs-clubs">
+          <legend>
+            Какой кружок тебя интересует? <span class="req">*</span>
+            <span class="hint">можно выбрать только один</span>
+          </legend>
+          <div class="cards">
+            <label class="card web">
+              <input type="radio" name="clubs" value="Билдер веба" />
+              <span class="body"
+                ><span class="tick"></span
+                ><span
+                  ><span class="name">Билдер веба</span
+                  ><span class="desc">Веб-разработка</span></span
+                ></span
+              >
+            </label>
+            <label class="card sys">
+              <input type="radio" name="clubs" value="Системный горизонт" />
+              <span class="body"
+                ><span class="tick"></span
+                ><span
+                  ><span class="name">Системный горизонт</span
+                  ><span class="desc">Системное программирование</span></span
+                ></span
+              >
+            </label>
+            <label class="card design">
+              <input type="radio" name="clubs" value="Взгляд с нуля" />
+              <span class="body"
+                ><span class="tick"></span
+                ><span
+                  ><span class="name">Взгляд с нуля</span
+                  ><span class="desc">Веб-дизайн</span></span
+                ></span
+              >
+            </label>
+            <label class="card mobile">
+              <input type="radio" name="clubs" value="Мобильная приложуха" />
+              <span class="body"
+                ><span class="tick"></span
+                ><span
+                  ><span class="name">Мобильная приложуха</span
+                  ><span class="desc"
+                    >Разработка мобильных приложений</span
+                  ></span
+                ></span
+              >
+            </label>
+          </div>
+          <div class="err" id="err-clubs"></div>
+        </fieldset>
+
+        <fieldset class="field" id="fs-exp">
+          <legend>
+            Есть ли опыт в программировании или дизайне?
+            <span class="req">*</span>
+          </legend>
+          <div class="pills">
+            <label class="pill"
+              ><input
+                type="radio"
+                name="experience"
+                value="Начинаю с нуля"
+              /><span>Начинаю с нуля</span></label
+            >
+            <label class="pill"
+              ><input
+                type="radio"
+                name="experience"
+                value="Немного пробовал(а)"
+              /><span>Немного пробовал(а)</span></label
+            >
+            <label class="pill"
+              ><input
+                type="radio"
+                name="experience"
+                value="Есть свои проекты"
+              /><span>Есть свои проекты</span></label
+            >
+          </div>
+          <div class="err" id="err-experience"></div>
+        </fieldset>
+
+        <div class="field">
+          <label class="lbl" for="why"
+            >Почему тебе это интересно?
+            <span class="hint">необязательно</span></label
+          >
+          <textarea
+            id="why"
+            name="why"
+            maxlength="300"
+            placeholder="Пара слов о том, чего ждёшь от кружка"
+          ></textarea>
+          <div class="counter"><span id="count">0</span>/300</div>
+        </div>
+
+        <fieldset class="field">
+          <legend>
+            В какие дни удобно заниматься?
+            <span class="hint">необязательно</span>
+          </legend>
+          <div class="pills">
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Понедельник" /><span
+                >Пн</span
+              ></label
+            >
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Вторник" /><span
+                >Вт</span
+              ></label
+            >
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Среда" /><span
+                >Ср</span
+              ></label
+            >
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Четверг" /><span
+                >Чт</span
+              ></label
+            >
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Пятница" /><span
+                >Пт</span
+              ></label
+            >
+            <label class="pill"
+              ><input type="checkbox" name="days" value="Суббота" /><span
+                >Сб</span
+              ></label
+            >
+          </div>
+        </fieldset>
+
+        <div class="hp" aria-hidden="true">
+          <label
+            >Не заполняй это поле
+            <input
+              type="text"
+              name="website"
+              id="website"
+              tabindex="-1"
+              autocomplete="off"
+          /></label>
+        </div>
+
+        <div class="field">
+          <label class="consent">
+            <input type="checkbox" id="consent" name="consent" />
+            <span
+              >Согласен(на) на обработку персональных данных для связи по записи
+              в кружок <span class="req">*</span></span
+            >
+          </label>
+          <div class="err" id="err-consent"></div>
+        </div>
+
+        <button type="submit" id="submit">Отправить заявку</button>
+        <div class="form-error" id="form-error" role="alert">
+          Не получилось отправить заявку. Проверь интернет и попробуй ещё раз.
+        </div>
+      </form>
+
+      <section class="done" id="done" aria-live="polite">
+        <div class="ok">status: 200 OK</div>
+        <h2>Заявка принята!</h2>
+        <p>
+          Мы напишем тебе в Telegram или позвоним по номеру, который ты указал.
+        </p>
+        <ul id="done-clubs"></ul>
+      </section>
     </div>
 
-    <div class="field">
-      <label class="lbl" for="group">Группа и курс <span class="req">*</span></label>
-      <input type="text" id="group" name="group" placeholder="Например: ИС-21, 2 курс" maxlength="60">
-      <div class="err" id="err-group"></div>
-    </div>
+    <script>
+      const SCRIPT_URL = "ВСТАВЬ_СЮДА_URL_ИЗ_APPS_SCRIPT";
 
-    <div class="field">
-      <label class="lbl" for="contact">Telegram или телефон <span class="req">*</span></label>
-      <input type="text" id="contact" name="contact" autocomplete="off" placeholder="@username или +7 900 000-00-00" maxlength="40">
-      <div class="err" id="err-contact"></div>
-    </div>
+      const CLUB_ACCENTS = {
+        "Билдер веба": "var(--web)",
+        "Системный горизонт": "var(--sys)",
+        "Взгляд с нуля": "var(--design)",
+        "Мобильная приложуха": "var(--mobile)",
+      };
 
-    <fieldset class="field" id="fs-clubs">
-      <legend>Какой кружок тебя интересует? <span class="req">*</span> <span class="hint">можно выбрать только один</span></legend>
-      <div class="cards">
-        <label class="card web">
-          <input type="radio" name="clubs" value="Билдер веба">
-          <span class="body"><span class="tick"></span><span><span class="name">Билдер веба</span><span class="desc">Веб-разработка</span></span></span>
-        </label>
-        <label class="card sys">
-          <input type="radio" name="clubs" value="Системный горизонт">
-          <span class="body"><span class="tick"></span><span><span class="name">Системный горизонт</span><span class="desc">Системное программирование</span></span></span>
-        </label>
-        <label class="card design">
-          <input type="radio" name="clubs" value="Взгляд с нуля">
-          <span class="body"><span class="tick"></span><span><span class="name">Взгляд с нуля</span><span class="desc">Веб-дизайн</span></span></span>
-        </label>
-        <label class="card mobile">
-          <input type="radio" name="clubs" value="Мобильная приложуха">
-          <span class="body"><span class="tick"></span><span><span class="name">Мобильная приложуха</span><span class="desc">Разработка мобильных приложений</span></span></span>
-        </label>
-      </div>
-      <div class="err" id="err-clubs"></div>
-    </fieldset>
+      const $ = (id) => document.getElementById(id);
+      const form = $("form");
+      const submitBtn = $("submit");
 
-    <fieldset class="field" id="fs-exp">
-      <legend>Есть ли опыт в программировании или дизайне? <span class="req">*</span></legend>
-      <div class="pills">
-        <label class="pill"><input type="radio" name="experience" value="Начинаю с нуля"><span>Начинаю с нуля</span></label>
-        <label class="pill"><input type="radio" name="experience" value="Немного пробовал(а)"><span>Немного пробовал(а)</span></label>
-        <label class="pill"><input type="radio" name="experience" value="Есть свои проекты"><span>Есть свои проекты</span></label>
-      </div>
-      <div class="err" id="err-experience"></div>
-    </fieldset>
+      const checked = (name) =>
+        [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
+          (i) => i.value,
+        );
 
-    <div class="field">
-      <label class="lbl" for="why">Почему тебе это интересно? <span class="hint">необязательно</span></label>
-      <textarea id="why" name="why" maxlength="300" placeholder="Пара слов о том, чего ждёшь от кружка"></textarea>
-      <div class="counter"><span id="count">0</span>/300</div>
-    </div>
+      $("why").addEventListener("input", (e) => {
+        $("count").textContent = e.target.value.length;
+      });
 
-    <fieldset class="field">
-      <legend>В какие дни удобно заниматься? <span class="hint">необязательно</span></legend>
-      <div class="pills">
-        <label class="pill"><input type="checkbox" name="days" value="Понедельник"><span>Пн</span></label>
-        <label class="pill"><input type="checkbox" name="days" value="Вторник"><span>Вт</span></label>
-        <label class="pill"><input type="checkbox" name="days" value="Среда"><span>Ср</span></label>
-        <label class="pill"><input type="checkbox" name="days" value="Четверг"><span>Чт</span></label>
-        <label class="pill"><input type="checkbox" name="days" value="Пятница"><span>Пт</span></label>
-        <label class="pill"><input type="checkbox" name="days" value="Суббота"><span>Сб</span></label>
-      </div>
-    </fieldset>
+      function setError(id, msg, inputEl) {
+        const box = $("err-" + id);
+        box.textContent = msg || "";
+        box.classList.toggle("show", !!msg);
+        if (inputEl)
+          inputEl.setAttribute("aria-invalid", msg ? "true" : "false");
+      }
 
-    <div class="hp" aria-hidden="true">
-      <label>Не заполняй это поле <input type="text" name="website" id="website" tabindex="-1" autocomplete="off"></label>
-    </div>
+      const CONTACT_RE = /^(@[A-Za-z0-9_]{5,32}|\+?[0-9][0-9\s\-()]{9,17})$/;
 
-    <div class="field">
-      <label class="consent">
-        <input type="checkbox" id="consent" name="consent">
-        <span>Согласен(на) на обработку персональных данных для связи по записи в кружок <span class="req">*</span></span>
-      </label>
-      <div class="err" id="err-consent"></div>
-    </div>
+      function validate() {
+        const data = {
+          fio: $("fio").value.trim().replace(/\s+/g, " "),
+          group: $("group").value.trim(),
+          contact: $("contact").value.trim(),
+          clubs: checked("clubs"),
+          experience: checked("experience")[0] || "",
+          why: $("why").value.trim(),
+          days: checked("days"),
+          website: $("website").value,
+        };
+        let firstBad = null;
+        const bad = (el, id, msg) => {
+          setError(id, msg, el);
+          if (msg && !firstBad) firstBad = el;
+        };
 
-    <button type="submit" id="submit">Отправить заявку</button>
-    <div class="form-error" id="form-error" role="alert">Не получилось отправить заявку. Проверь интернет и попробуй ещё раз.</div>
-  </form>
+        bad(
+          $("fio"),
+          "fio",
+          data.fio.split(" ").filter(Boolean).length < 2
+            ? "Напиши фамилию и имя полностью."
+            : "",
+        );
+        bad(
+          $("group"),
+          "group",
+          data.group.length < 2 ? "Укажи группу и курс." : "",
+        );
+        bad(
+          $("contact"),
+          "contact",
+          CONTACT_RE.test(data.contact)
+            ? ""
+            : "Нужен Telegram вида @username или номер телефона.",
+        );
+        bad(
+          $("fs-clubs").querySelector("input"),
+          "clubs",
+          data.clubs.length ? "" : "Выбери один кружок.",
+        );
+        bad(
+          $("fs-exp").querySelector("input"),
+          "experience",
+          data.experience ? "" : "Выбери один вариант.",
+        );
+        bad(
+          $("consent"),
+          "consent",
+          $("consent").checked
+            ? ""
+            : "Без согласия мы не можем принять заявку.",
+        );
 
-  <section class="done" id="done" aria-live="polite">
-    <div class="ok">status: 200 OK</div>
-    <h2>Заявка принята!</h2>
-    <p>Мы напишем тебе в Telegram или позвоним по номеру, который ты указал.</p>
-    <ul id="done-clubs"></ul>
-  </section>
-</div>
+        return { data, firstBad };
+      }
 
-<script>
-  const SCRIPT_URL = 'ВСТАВЬ_СЮДА_URL_ИЗ_APPS_SCRIPT';
+      async function submitForm(data) {
+        if (!SCRIPT_URL.startsWith("https://")) {
+          console.warn(
+            "SCRIPT_URL не задан, данные не отправлены. Тестовый режим:",
+            data,
+          );
+          return;
+        }
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(data),
+        });
+      }
 
-  const CLUB_ACCENTS = {
-    'Билдер веба': 'var(--web)',
-    'Системный горизонт': 'var(--sys)',
-    'Взгляд с нуля': 'var(--design)',
-    'Мобильная приложуха': 'var(--mobile)'
-  };
+      function showDone(clubs) {
+        const list = $("done-clubs");
+        list.innerHTML = "";
+        clubs.forEach((c) => {
+          const li = document.createElement("li");
+          li.textContent = c;
+          li.style.setProperty("--accent", CLUB_ACCENTS[c] || "var(--mint)");
+          list.appendChild(li);
+        });
+        form.style.display = "none";
+        $("done").classList.add("show");
+        $("done").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
 
-  const $ = (id) => document.getElementById(id);
-  const form = $('form');
-  const submitBtn = $('submit');
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (submitBtn.disabled) return;
+        $("form-error").classList.remove("show");
 
-  const checked = (name) => [...form.querySelectorAll(`input[name="${name}"]:checked`)].map((i) => i.value);
+        const { data, firstBad } = validate();
+        if (firstBad) {
+          firstBad.focus();
+          return;
+        }
 
-  $('why').addEventListener('input', (e) => { $('count').textContent = e.target.value.length; });
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Отправляю…";
+        try {
+          await submitForm(data);
+          showDone(data.clubs);
+        } catch (err) {
+          console.error(err);
+          $("form-error").classList.add("show");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Отправить заявку";
+        }
+      });
 
-  function setError(id, msg, inputEl) {
-    const box = $('err-' + id);
-    box.textContent = msg || '';
-    box.classList.toggle('show', !!msg);
-    if (inputEl) inputEl.setAttribute('aria-invalid', msg ? 'true' : 'false');
-  }
-
-  const CONTACT_RE = /^(@[A-Za-z0-9_]{5,32}|\+?[0-9][0-9\s\-()]{9,17})$/;
-
-  function validate() {
-    const data = {
-      fio: $('fio').value.trim().replace(/\s+/g, ' '),
-      group: $('group').value.trim(),
-      contact: $('contact').value.trim(),
-      clubs: checked('clubs'),
-      experience: (checked('experience')[0]) || '',
-      why: $('why').value.trim(),
-      days: checked('days'),
-      website: $('website').value
-    };
-    let firstBad = null;
-    const bad = (el, id, msg) => { setError(id, msg, el); if (msg && !firstBad) firstBad = el; };
-
-    bad($('fio'), 'fio', data.fio.split(' ').filter(Boolean).length < 2 ? 'Напиши фамилию и имя полностью.' : '');
-    bad($('group'), 'group', data.group.length < 2 ? 'Укажи группу и курс.' : '');
-    bad($('contact'), 'contact', CONTACT_RE.test(data.contact) ? '' : 'Нужен Telegram вида @username или номер телефона.');
-    bad($('fs-clubs').querySelector('input'), 'clubs', data.clubs.length ? '' : 'Выбери один кружок.');
-    bad($('fs-exp').querySelector('input'), 'experience', data.experience ? '' : 'Выбери один вариант.');
-    bad($('consent'), 'consent', $('consent').checked ? '' : 'Без согласия мы не можем принять заявку.');
-
-    return { data, firstBad };
-  }
-
-  async function submitForm(data) {
-    if (!SCRIPT_URL.startsWith('https://')) {
-      console.warn('SCRIPT_URL не задан, данные не отправлены. Тестовый режим:', data);
-      return;
-    }
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
-    });
-  }
-
-  function showDone(clubs) {
-    const list = $('done-clubs');
-    list.innerHTML = '';
-    clubs.forEach((c) => {
-      const li = document.createElement('li');
-      li.textContent = c;
-      li.style.setProperty('--accent', CLUB_ACCENTS[c] || 'var(--mint)');
-      list.appendChild(li);
-    });
-    form.style.display = 'none';
-    $('done').classList.add('show');
-    $('done').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (submitBtn.disabled) return;
-    $('form-error').classList.remove('show');
-
-    const { data, firstBad } = validate();
-    if (firstBad) { firstBad.focus(); return; }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Отправляю…';
-    try {
-      await submitForm(data);
-      showDone(data.clubs);
-    } catch (err) {
-      console.error(err);
-      $('form-error').classList.add('show');
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Отправить заявку';
-    }
-  });
-
-  form.addEventListener('input', (e) => {
-    const t = e.target;
-    if (t.id && t.getAttribute('aria-invalid') === 'true') { setError(t.id, '', t); }
-    if (t.name === 'clubs') setError('clubs', '');
-    if (t.name === 'experience') setError('experience', '');
-    if (t.id === 'consent') setError('consent', '');
-  });
-</script>
-</body>
+      form.addEventListener("input", (e) => {
+        const t = e.target;
+        if (t.id && t.getAttribute("aria-invalid") === "true") {
+          setError(t.id, "", t);
+        }
+        if (t.name === "clubs") setError("clubs", "");
+        if (t.name === "experience") setError("experience", "");
+        if (t.id === "consent") setError("consent", "");
+      });
+    </script>
+  </body>
 </html>
