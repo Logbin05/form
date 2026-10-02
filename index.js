@@ -1,4 +1,4 @@
-const API_URL = "https://form-api.demo1fort.workers.dev";
+API_URL = "https://form-api.demo1fort.workers.dev";
 
 async function submitForm(data) {
   const res = await fetch(API_URL, {
