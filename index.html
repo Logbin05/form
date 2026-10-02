@@ -433,7 +433,7 @@
             type="text"
             id="group"
             name="group"
-            placeholder="Например: ИС-221/1, 4 курс"
+            placeholder="Например: ИС-21, 2 курс"
             maxlength="60"
           />
           <div class="err" id="err-group"></div>
@@ -448,8 +448,10 @@
             id="contact"
             name="contact"
             autocomplete="off"
-            placeholder="@username или +7 900 000-00-00"
-            maxlength="40"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="@username"
+            maxlength="33"
           />
           <div class="err" id="err-contact"></div>
         </div>
@@ -622,15 +624,13 @@
       <section class="done" id="done" aria-live="polite">
         <div class="ok">status: 200 OK</div>
         <h2>Заявка принята!</h2>
-        <p>
-          Мы напишем тебе в Telegram или позвоним по номеру, который ты указал.
-        </p>
+        <p>Мы напишем тебе в Telegram, на аккаунт, который ты указал.</p>
         <ul id="done-clubs"></ul>
       </section>
     </div>
 
     <script>
-      const SCRIPT_URL = "ВСТАВЬ_СЮДА_URL_ИЗ_APPS_SCRIPT";
+      const API_URL = "https://form-api.demo1fort.workers.dev";
 
       const CLUB_ACCENTS = {
         "Билдер веба": "var(--web)",
@@ -660,7 +660,7 @@
           inputEl.setAttribute("aria-invalid", msg ? "true" : "false");
       }
 
-      const CONTACT_RE = /^(@[A-Za-z0-9_]{5,32}|\+?[0-9][0-9\s\-()]{9,17})$/;
+      const CONTACT_RE = /^@[A-Za-z0-9_]{5,32}$/;
 
       function validate() {
         const data = {
@@ -696,7 +696,7 @@
           "contact",
           CONTACT_RE.test(data.contact)
             ? ""
-            : "Нужен Telegram вида @username",
+            : "Укажи Telegram в виде @username (5-32 символа: латиница, цифры, _).",
         );
         bad(
           $("fs-clubs").querySelector("input"),
@@ -720,19 +720,12 @@
       }
 
       async function submitForm(data) {
-        if (!SCRIPT_URL.startsWith("https://")) {
-          console.warn(
-            "SCRIPT_URL не задан, данные не отправлены. Тестовый режим:",
-            data,
-          );
-          return;
-        }
-        await fetch(SCRIPT_URL, {
+        const res = await fetch(API_URL, {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
+        if (!res.ok) throw new Error("Ошибка отправки: " + res.status);
       }
 
       function showDone(clubs) {
